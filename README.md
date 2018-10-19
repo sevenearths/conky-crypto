@@ -16,3 +16,5 @@ When you checkout this repo move all the files _(apart from the `README.md`)_ to
 ...
 ```
 Edit the coins in `crypto.py` to add your own coins
+
+![Alt text](/screenshot.png?raw=true "Preview")
