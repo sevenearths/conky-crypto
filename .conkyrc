@@ -1,0 +1,90 @@
+# conky configuration
+##############################################
+# Settings
+##############################################
+background yes
+use_xft yes
+xftfont Liberation Sans:size=9
+xftalpha 1
+update_interval 0.5
+update_interval_on_battery 1
+total_run_times 0
+own_window yes
+own_window_transparent yes
+own_window_type normal
+##############################################
+## cairo-compmgr
+own_window_argb_visual yes
+##############################################
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+maximum_width 270
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+default_color ffffff
+default_shade_color 000000
+default_outline_color 828282
+alignment top_right
+gap_x 30
+gap_y 45
+no_buffers yes
+uppercase no
+cpu_avg_samples 4
+override_utf8_locale no
+
+##############################################
+# colors
+
+color1 FFFFFF
+color2 FFA500
+
+##############################################
+#  Output
+##############################################
+
+own_window_argb_value 0
+own_window_colour 000000
+minimum_size 0 0
+TEXT
+${font sans-serif:bold:size=8}SYSTEM ${hr 2}
+${font sans-serif:bold:size=8}HOST:$alignr$nodename
+${font sans-serif:bold:size=8}KERNEL:$alignr$kernel
+${font sans-serif:bold:size=8}UPTIME:$alignr$uptime_short
+${font sans-serif:bold:size=8}BATTERY:${alignr}${battery_percent}%
+${battery_bar}
+
+${font sans-serif:bold:size=8}PROCESSOR ${hr 2}
+
+CPU TOTAL: ${cpu cpu0}% ${cpubar cpu0}
+${font sans-serif:bold:size=8}${cpugraph cpu0 30,270 000000 446B8A}
+${font sans-serif:bold:size=8}TOP PROCESSES ${hr 2}
+${font sans-serif:bold:size=8}NAME${alignc}   PID${alignr}${alignr}% MEM
+${font sans-serif:normal:size=7}${top_mem name 1}${alignc}${top_mem pid 1}${alignr}${top mem 1}%
+${top_mem name 2}${alignc}${top_mem pid 2}${alignr}${top mem 2}%
+${top_mem name 3}${alignc}${top_mem pid 3}${alignr}${top mem 3}%
+${top_mem name 4}${alignc}${top_mem pid 4}${alignr}${top mem 4}%
+#${top_mem name 5}${alignc}${top_mem pid 5}${alignr}${top mem 5}%
+#${top_mem name 6}${alignc}${top_mem pid 6}${alignr}${top mem 6}%
+#${top_mem name 7}${alignc}${top_mem pid 7}${alignr}${top mem 7}%
+
+${font sans-serif:bold:size=8}MEMORY ${hr 2}
+${font sans-serif:normal:size=8}RAM $alignc $mem / $memmax $alignr $memperc%
+$membar
+
+${font sans-serif:bold:size=8}STORAGE ${hr 2}
+${font sans-serif:normal:size=8}/ $alignc ${fs_free /} / ${fs_size /} $alignr
+${fs_bar /}
+${font sans-serif:normal:size=8}/media/robert/DATA/ $alignc ${fs_free /media/robert/DATA/} / ${fs_size /media/robert/DATA/} $alignr
+${fs_bar /media/robert/DATA/}
+
+${font sans-serif:bold:size=8}NETWORK${font sans-serif:normal:size=8} (${addr wlp2s0}) ${hr 2}
+Signal: $alignr ${wireless_link_qual_perc wlp2s0}%
+${upspeedgraph wlp2s0 40,270 5F00FF FF0044 -l}
+${font sans-serif:bold:size=8}NETWORK${alignc}CURRENT${alignr}${alignr}TOTAL
+${font sans-serif:normal:size=8}Download: ${alignc}${downspeed wlp2s0} ${alignr}${totaldown wlp2s0}
+Upload: ${alignc}${upspeed wlp2s0} ${alignr}${totalup wlp2s0}
+
+${execpi 15 cat ~/crypto_conky.txt}
+
