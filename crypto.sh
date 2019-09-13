@@ -1,3 +1,3 @@
 #! /bin/bash
-source .crypto/bin/activate
-python crypto.py
+source ~/.crypto/bin/activate
+python ~/crypto.py

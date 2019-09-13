@@ -25,7 +25,7 @@ def millifyfull(n):
     return '{:.1f}{}'.format(n / 10**(3 * millidx), millnamesfull[millidx])
 
 def getCoins():
-	coinsList = json.loads(apiRequest('cryptocurrency/map'))
+	coinsList = apiRequest('cryptocurrency/map')
 	for coinName in coinNames:
 		try:
 			coinDetails = (item for item in coinsList["data"] if item["symbol"] == coinName).next()
@@ -53,18 +53,7 @@ coinNames = [
     'EOS',
     'LTC',
     'NEO',
-    'GRS',
-    'VIA',
-    'VTC',
-    'RUP',
-    'RUPX',
-    #'XTL',
-    'SMART',
-    'XTZ',
-    'RVN',
-    'MAS',
     'DASH',
-    'DIVI',
 ]
 
 coins = {}
