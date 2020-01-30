@@ -20,6 +20,21 @@ When you checkout this repo move all the files _(apart from the `README.md`)_ to
 crypto_conky.txt
 ...
 ```
-Edit the coins in `crypto.py` to add your own coins
+Edit the coins in `crypto.py` to add your own coins by doing...
+```
+~# rm coins.json
+~# vim crypto.py
+...
+coinNames = [
+    'ICX',
+    'ETH',
+    'EOS',
+    'LTC',
+    'NEO',
+    '...',  # <- Add your coin here
+    'DASH',
+]
+~# crypto.sh
+```
 
 ![Alt text](/screenshot.png?raw=true "Preview")
