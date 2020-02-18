@@ -15,14 +15,17 @@ When you checkout this repo move all the files _(apart from the `README.md`)_ to
 ...
 ~# ls -l
 ...
-~# python crypto.py
-~# ls | grep 'crypto_conky.txt'
+~# source .crypto/bin/activate
+~(.crypto)# python crypto.py
+~(.crypto)# ls | grep 'crypto_conky.txt'
 crypto_conky.txt
+~(.crypto)# deactivate
+~# 
 ...
 ```
 Edit the coins in `crypto.py` to add your own coins by doing...
 ```
-~# rm coins.json
+~# rm coins.json  # <- it is important to reomve this file as it is a cache file
 ~# vim crypto.py
 ...
 coinNames = [
