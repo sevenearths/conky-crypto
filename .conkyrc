@@ -23,12 +23,12 @@ draw_shades no
 draw_outline no
 draw_borders no
 draw_graph_borders no
-default_color ffffff
+default_color eee
 default_shade_color 000000
 default_outline_color 828282
 alignment top_right
 gap_x 30
-gap_y 45
+gap_y 60
 no_buffers yes
 uppercase no
 cpu_avg_samples 4
@@ -37,8 +37,9 @@ override_utf8_locale no
 ##############################################
 # colors
 
-color1 FFFFFF
-color2 FFA500
+color1 AF5050  # red
+color2 C79538  # orange
+color3 40BF40  # green
 
 ##############################################
 #  Output
@@ -76,8 +77,8 @@ $membar
 ${font sans-serif:bold:size=8}STORAGE ${hr 2}
 ${font sans-serif:normal:size=8}/ $alignc ${fs_free /} / ${fs_size /} $alignr
 ${fs_bar /}
-${font sans-serif:normal:size=8}/media/robert/DATA/ $alignc ${fs_free /media/robert/DATA/} / ${fs_size /media/robert/DATA/} $alignr
-${fs_bar /media/robert/DATA/}
+# ${font sans-serif:normal:size=8}/home/dave/ $alignc ${fs_free /home/dave/} / ${fs_size /home/dave/} $alignr
+# ${fs_bar /home/dave/}
 
 ${font sans-serif:bold:size=8}NETWORK${font sans-serif:normal:size=8} (${addr wlp2s0}) ${hr 2}
 Signal: $alignr ${wireless_link_qual_perc wlp2s0}%

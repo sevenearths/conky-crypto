@@ -1,6 +1,8 @@
 import os, sys, time, math, json, pprint, requests
-from urllib2 import Request, urlopen
-from urllib import urlencode
+
+color_red = 'color1'
+color_orange = 'color2'
+color_green = 'color3'
 
 millnames = ['','T','M','B','T']
 millnamesfull = ['',' Thousand',' Million',' Billion',' Trillion']
@@ -13,22 +15,23 @@ api_key = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
 base_url = 'https://pro-api.coinmarketcap.com/v1/'
 
 def millify(n):
-    n = float(n)
-    millidx = max(0,min(len(millnames)-1,
-    	int(math.floor(0 if n == 0 else math.log10(abs(n))/3))))
-    return '{:.1f}{}'.format(n / 10**(3 * millidx), millnames[millidx])
+	n = float(n)
+	millidx = max(0,min(len(millnames)-1,
+		int(math.floor(0 if n == 0 else math.log10(abs(n))/3))))
+	return '{:.1f}{}'.format(n / 10**(3 * millidx), millnames[millidx])
 
 def millifyfull(n):
-    n = float(n)
-    millidx = max(0,min(len(millnamesfull)-1,
-    	int(math.floor(0 if n == 0 else math.log10(abs(n))/3))))
-    return '{:.1f}{}'.format(n / 10**(3 * millidx), millnamesfull[millidx])
+	n = float(n)
+	millidx = max(0,min(len(millnamesfull)-1,
+		int(math.floor(0 if n == 0 else math.log10(abs(n))/3))))
+	return '{:.1f}{}'.format(n / 10**(3 * millidx), millnamesfull[millidx])
 
 def getCoins():
 	coinsList = apiRequest('cryptocurrency/map')
+
 	for coinName in coinNames:
 		try:
-			coinDetails = (item for item in coinsList["data"] if item["symbol"] == coinName).next()
+			coinDetails = next(item for item in coinsList["data"] if item["symbol"] == coinName)
 			coins[coinDetails["id"]] = coinName
 		except:
 			pass
@@ -48,12 +51,12 @@ def apiRequest(url, args = None):
 	return r.json()
 
 coinNames = [
-    'ICX',
-    'ETH',
-    'EOS',
-    'LTC',
-    'NEO',
-    'DASH',
+	'ICX',
+	'ETH',
+	'EOS',
+	'LTC',
+	'NEO',
+	'DASH',
 ]
 
 coins = {}
@@ -76,23 +79,23 @@ tmc = globalData['data']['quote']['USD']['total_market_cap']
 tv24h = globalData['data']['quote']['USD']['total_volume_24h']
 tvp = round((float(tv24h) / (float(tmc)/100)), 2)
 
-bp_colour = 'red'
+bp_colour = color_red
 if bp < 30.0:
-	bp_colour = 'orange'
+	bp_colour = color_orange
 if bp < 20.0:
-	bp_colour = 'green'
+	bp_colour = color_green
 
-tmc_colour = 'red'
+tmc_colour = color_red
 if int(tmc) > 500000000000:
-	tmc_colour = 'orange'
+	tmc_colour = color_orange
 if int(tmc) > 1000000000000:
-	tmc_colour = 'green'
+	tmc_colour = color_green
 
-tvp_color = 'red'
+tvp_color = color_red
 if tvp > 10.0:
-	tvp_color = 'orange'
+	tvp_color = color_orange
 if tvp > 20.0:
-	tvp_color = 'green'
+	tvp_color = color_green
 
 coinData = {}
 
@@ -101,7 +104,7 @@ args = {'id':ids}
 
 jsonData = apiRequest('cryptocurrency/quotes/latest', args)
 
-for id, coin in sorted(coins.items()):
+for id, coin in coins.items():
 
 	if str(id) in jsonData['data']:
 
@@ -128,54 +131,54 @@ for id, coin in sorted(coins.items()):
 		coinData[coin]['percent_change_24h']     = round(float(pc24h), 2) if pc24h else -100.0
 		coinData[coin]['percent_change_7d']      = round(float(pc7d), 2) if pc7d else -100.0
 
-		coinData[coin]['volume_as_percent_colour']  = 'red'
-		coinData[coin]['percent_change_1h_colour']  = 'red'
-		coinData[coin]['percent_change_24h_colour'] = 'red'
-		coinData[coin]['percent_change_7d_colour']  = 'red'
+		coinData[coin]['volume_as_percent_colour']  = color_red
+		coinData[coin]['percent_change_1h_colour']  = color_red
+		coinData[coin]['percent_change_24h_colour'] = color_red
+		coinData[coin]['percent_change_7d_colour']  = color_red
 
 		if coinData[coin]['volume_as_percent'] > 2.5:
-			coinData[coin]['volume_as_percent_colour'] = 'orange'
+			coinData[coin]['volume_as_percent_colour'] = color_orange
 		if coinData[coin]['volume_as_percent'] > 5.0:
-			coinData[coin]['volume_as_percent_colour'] = 'green'
+			coinData[coin]['volume_as_percent_colour'] = color_green
 
 		if coinData[coin]['percent_change_1h'] > 2.0:
-			coinData[coin]['percent_change_1h_colour'] = 'orange'
+			coinData[coin]['percent_change_1h_colour'] = color_orange
 		if coinData[coin]['percent_change_1h'] > 20.0:
-			coinData[coin]['percent_change_1h_colour'] = 'green'
+			coinData[coin]['percent_change_1h_colour'] = color_green
 
 		if coinData[coin]['percent_change_24h'] > 2.0:
-			coinData[coin]['percent_change_24h_colour'] = 'orange'
+			coinData[coin]['percent_change_24h_colour'] = color_orange
 		if coinData[coin]['percent_change_24h'] > 20.0:
-			coinData[coin]['percent_change_24h_colour'] = 'green'
+			coinData[coin]['percent_change_24h_colour'] = color_green
 
 		if coinData[coin]['percent_change_7d'] > 2.0:
-			coinData[coin]['percent_change_7d_colour'] = 'orange'
+			coinData[coin]['percent_change_7d_colour'] = color_orange
 		if coinData[coin]['percent_change_7d'] > 20.0:
-			coinData[coin]['percent_change_7d_colour'] = 'green'
+			coinData[coin]['percent_change_7d_colour'] = color_green
 
 file = open(filename, 'w')
 
 btc_price = round(float(coinData['BTC']['price']),2)
 
-btc_color = 'red'
+btc_color = color_red
 if btc_price > 10000.0:
-	btc_color = 'orange'
+	btc_color = color_orange
 if btc_price > 20000.0:
-	btc_color = 'green'
+	btc_color = color_green
 
 file.write("${font sans-serif:bold:size=11}CRYPTO ${hr 2}\n")
-file.write("${font sans-serif:bold:size=10}Bitcoin Price:${alignr}${color "+btc_color+"}"+str(btc_price)+"${color}\n")
-file.write("${font sans-serif:bold:size=10}Trading Volume:${alignr}${color "+tvp_color+"}"+str(tvp)+"%${color}\n")
-file.write("${font sans-serif:bold:size=10}Bitcoin Market Share:${alignr}${color "+bp_colour+"}"+str(bp)+"%${color}\n")
-file.write("${font sans-serif:bold:size=10}Total Market Cap:${alignr}${color "+tmc_colour+"}"+millifyfull(globalData['data']['quote']['USD']['total_market_cap'])+"${color}\n")
+file.write("${font sans-serif:bold:size=10}Bitcoin Price:${alignr}${"+btc_color+"}"+str(btc_price)+"$color\n")
+file.write("${font sans-serif:bold:size=10}Trading Volume:${alignr}${"+tvp_color+"}"+str(tvp)+"%$color\n")
+file.write("${font sans-serif:bold:size=10}Bitcoin Market Share:${alignr}${"+bp_colour+"}"+str(bp)+"%$color\n")
+file.write("${font sans-serif:bold:size=10}Total Market Cap:${alignr}${"+tmc_colour+"}"+millifyfull(globalData['data']['quote']['USD']['total_market_cap'])+"$color\n")
 
 file.write("${font sans-serif:bold:size=2} \n")
 file.write("${font sans-serif:bold:size=8}COIN${goto 50}MC${goto 90}Price${goto 120}Vol %${goto 165}1hr${goto 205}24hr${goto 245}7d\n")
 file.write("${hr 1}\n")
 
 # dict((y,x) for x,y in my_dict.iteritems())
-for coin in sorted(dict((y,x) for x,y in coins.iteritems()).keys()):
+for coin in sorted(dict((y,x) for x,y in coins.items()).keys()):
 	if coin is not 'BTC':
-		file.write('${font sans-serif:normal:size=8}'+str(coin)+': ${goto 50}'+str(coinData[coin]["market_cap"])+'${goto 90}'+str(coinData[coin]["price"])+'${goto 125}${color '+coinData[coin]["volume_as_percent_colour"]+'}'+str(coinData[coin]["volume_as_percent"])+'${goto 160}${color '+coinData[coin]["percent_change_1h_colour"]+'}'+str(coinData[coin]["percent_change_1h"])+'${goto 200}${color '+coinData[coin]["percent_change_24h_colour"]+'}'+str(coinData[coin]["percent_change_24h"])+'${goto 240}${color '+coinData[coin]["percent_change_7d_colour"]+'}'+str(coinData[coin]["percent_change_7d"])+'${color}\n')
+		file.write('${font sans-serif:normal:size=8}'+str(coin)+': ${goto 50}'+str(coinData[coin]["market_cap"])+'${goto 90}'+str(coinData[coin]["price"])+'${goto 125}${'+coinData[coin]["volume_as_percent_colour"]+'}'+str(coinData[coin]["volume_as_percent"])+'${goto 160}${'+coinData[coin]["percent_change_1h_colour"]+'}'+str(coinData[coin]["percent_change_1h"])+'${goto 200}${'+coinData[coin]["percent_change_24h_colour"]+'}'+str(coinData[coin]["percent_change_24h"])+'${goto 240}${'+coinData[coin]["percent_change_7d_colour"]+'}'+str(coinData[coin]["percent_change_7d"])+'$color\n')
 
 file.close()
